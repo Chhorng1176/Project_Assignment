@@ -1,0 +1,76 @@
+{% extends "layouts/farmer_base.html" %}
+{% block title %}Farmer Dashboard{% endblock %}
+
+{% block content %}
+<div class="p-4 h-100 overflow-auto">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0 text-success">
+             My Diagnoses
+        </h4>
+
+        <a href="{{ url_for('farmer.diagnose') }}"
+           class="btn btn-success btn-sm">
+            ➕ New Diagnosis
+        </a>
+    </div>
+
+    <!-- Diagnosis List -->
+    {% if diagnoses and diagnoses|length > 0 %}
+        <div class="card shadow-sm border-0">
+            <div class="list-group list-group-flush">
+
+                {% for d in diagnoses %}
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+
+                        <!-- Diagnosis Info -->
+                        <div>
+                            <strong>{{ d.crop_name }}</strong>
+                            <div class="small text-muted">
+                                Disease: {{ d.disease_name }}
+                            </div>
+                        </div>
+
+                        <!-- Status -->
+                        <div>
+                            {% if d.status == "PENDING" %}
+                                <span class="badge badge-warning px-3 py-2">
+                                    ⏳ Pending
+                                </span>
+                            {% elif d.status == "APPROVED" %}
+                                <span class="badge badge-success px-3 py-2">
+                                    ✅ Approved
+                                </span>
+                            {% elif d.status == "REJECTED" %}
+                                <span class="badge badge-danger px-3 py-2">
+                                    ❌ Rejected
+                                </span>
+                            {% else %}
+                                <span class="badge badge-secondary px-3 py-2">
+                                    {{ d.status }}
+                                </span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    {% else %}
+        <!-- Empty State -->
+        <div class="text-center text-muted mt-5">
+            <h5>🌱 No diagnoses yet</h5>
+            <p class="small mb-3">
+                Start by submitting your first crop diagnosis.
+            </p>
+            <a href="{{ url_for('farmer.diagnose') }}"
+               class="btn btn-outline-success btn-sm">
+                Diagnose Now
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends "layouts/base.html" %}
+{% block title %}User Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h4 text-gray-800">👥 User Management</h1>
+
+        <!-- Create User -->
+        <a href="{{ url_for('admin.users') }}#create-user"
+           class="btn btn-primary">
+            ➕ Create User
+        </a>
+    </div>
+
+    <!-- ===============================
+         CREATE USER FORM
+    =============================== -->
+    <div class="card shadow mb-4" id="create-user">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">
+                Create New User
+            </h6>
+        </div>
+        <div class="card-body">
+
+            <form method="POST" action="{{ url_for('admin.create_user') }}"
+                  class="row">
+
+                <div class="col-md-3 mb-2">
+                    <input name="username" class="form-control"
+                           placeholder="Username" required>
+                </div>
+
+                <div class="col-md-3 mb-2">
+                    <input name="password" type="password"
+                           class="form-control"
+                           placeholder="Password" required>
+                </div>
+
+                <div class="col-md-3 mb-2">
+                    <select name="role" class="form-control" required>
+                        <option value="">-- Role --</option>
+                        {% for r in roles %}
+                        <option value="{{ r.name }}">
+                            {{ r.name|capitalize }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-3 mb-2">
+                    <button class="btn btn-success w-100">
+                        ✅ Create
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- ===============================
+         USERS TABLE
+    =============================== -->
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold text-primary">
+                All Users
+            </h6>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th style="width:240px">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+
+                            <td>{{ loop.index }}</td>
+
+                            <td>
+                                <strong>{{ user.username }}</strong>
+                            </td>
+
+                            <!-- ROLE -->
+                            <td>
+                                {% if user.roles %}
+                                    <span class="badge badge-info">
+                                        {{ user.roles[0].name }}
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-secondary">
+                                        None
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <!-- STATUS -->
+                            <td>
+                                {% if user.is_active %}
+                                    <span class="badge badge-success">
+                                        Active
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-danger">
+                                        Banned
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <!-- ACTIONS -->
+                            <td>
+
+                                <!-- Change Role -->
+                                <form method="POST"
+                                      action="{{ url_for('admin.change_user_role', user_id=user.id) }}"
+                                      class="d-inline">
+                                    <select name="role"
+                                            class="custom-select custom-select-sm"
+                                            onchange="this.form.submit()">
+                                        {% for r in roles %}
+                                        <option value="{{ r.name }}"
+                                          {% if user.roles and user.roles[0].name == r.name %}selected{% endif %}>
+                                            {{ r.name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+
+                                <!-- Ban / Unban -->
+                                {% if not user.has_role('admin') %}
+                                <form method="POST"
+                                      action="{{ url_for('admin.toggle_user_status', user_id=user.id) }}"
+                                      class="d-inline">
+                                    <button class="btn btn-sm
+                                        {% if user.is_active %}btn-danger{% else %}btn-success{% endif %}">
+                                        {% if user.is_active %}Ban{% else %}Unban{% endif %}
+                                    </button>
+                                </form>
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

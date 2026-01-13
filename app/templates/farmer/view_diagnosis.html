@@ -1,0 +1,15 @@
+<h2>Diagnosis Detail</h2>
+
+<p><b>Crop:</b> {{ diagnosis.crop_name }}</p>
+<p><b>Disease:</b> {{ diagnosis.disease_name }}</p>
+<p><b>Status:</b> {{ diagnosis.status }}</p>
+
+{% if diagnosis.status == "APPROVED" %}
+  <hr>
+  <h3>Expert Solution</h3>
+  <p>{{ diagnosis.solution }}</p>
+{% else %}
+  <p>⏳ Waiting for expert review...</p>
+{% endif %}
+
+<a href="{{ url_for('farmer.dashboard') }}">⬅ Back</a>

@@ -1,0 +1,90 @@
+{% extends "layouts/base.html" %}
+{% block title %}Farmer Registration{% endblock %}
+
+{% block content %}
+<div class="container-fluid d-flex justify-content-center align-items-center"
+     style="min-height: 85vh;">
+
+    <div class="card shadow border-0"
+         style="max-width:420px; width:100%; border-radius:14px;">
+
+        <!-- HEADER -->
+        <div class="card-header bg-success text-white text-center"
+             style="border-radius:14px 14px 0 0;">
+            <h4 class="mb-0 font-weight-bold">
+                 Farmer Registration
+            </h4>
+            <small>Create your farmer account</small>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body p-4">
+
+            <form method="POST" novalidate>
+                {{ form.hidden_tag() }}
+
+                <!-- USERNAME -->
+                <div class="form-group mb-3">
+                    <label class="font-weight-bold">
+                        <i class="fas fa-user mr-1"></i> Username
+                    </label>
+                    {{ form.username(
+                        class="form-control",
+                        placeholder="Enter username"
+                    ) }}
+                    {% for error in form.username.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="form-group mb-3">
+                    <label class="font-weight-bold">
+                        <i class="fas fa-lock mr-1"></i> Password
+                    </label>
+                    {{ form.password(
+                        class="form-control",
+                        placeholder="Enter password"
+                    ) }}
+                    {% for error in form.password.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <!-- CONFIRM PASSWORD -->
+                <div class="form-group mb-4">
+                    <label class="font-weight-bold">
+                        <i class="fas fa-lock mr-1"></i> Confirm Password
+                    </label>
+                    {{ form.confirm_password(
+                        class="form-control",
+                        placeholder="Confirm password"
+                    ) }}
+                    {% for error in form.confirm_password.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <!-- SUBMIT -->
+                <button type="submit"
+                        class="btn btn-success btn-block py-2 font-weight-bold">
+                    <i class="fas fa-user-plus mr-1"></i>
+                    Register
+                </button>
+            </form>
+
+            <hr>
+
+            <!-- LOGIN LINK -->
+            <p class="text-center mb-0">
+                Already have an account?
+                <a href="{{ url_for('auth.login') }}"
+                   class="font-weight-bold text-success">
+                    Login
+                </a>
+            </p>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

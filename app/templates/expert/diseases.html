@@ -1,0 +1,45 @@
+{% extends "layouts/base.html" %}
+{% block title %}Diseases{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between mb-3">
+        <h3 class="font-weight-bold">🧑‍⚕️ Crop Diseases</h3>
+        <a href="{{ url_for('expert.create_disease') }}"
+           class="btn btn-success">
+           ➕ Add Disease
+        </a>
+    </div>
+
+    <table class="table table-bordered shadow-sm">
+        <thead>
+            <tr>
+                <th>Crop</th>
+                <th>Disease</th>
+                <th width="180">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in diseases %}
+            <tr>
+                <td>{{ d.crop.name }}</td>
+                <td>{{ d.name }}</td>
+                <td>
+                    <a href="{{ url_for('expert.edit_disease', disease_id=d.id) }}"
+                       class="btn btn-sm btn-primary">Edit</a>
+
+                    <form method="POST"
+                          action="{{ url_for('expert.delete_disease', disease_id=d.id) }}"
+                          class="d-inline"
+                          onsubmit="return confirm('Delete disease?')">
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

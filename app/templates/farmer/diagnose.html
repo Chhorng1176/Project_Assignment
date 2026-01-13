@@ -1,0 +1,78 @@
+{% extends "layouts/farmer_base.html" %}
+{% block title %}Diagnose Crop{% endblock %}
+
+{% block content %}
+<div class="container-fluid d-flex justify-content-center">
+    <div class="card shadow-sm" style="max-width: 720px; width:100%;">
+        <div class="card-body">
+
+            <h4 class="mb-3 text-success">
+                🌾 Crop Diagnosis
+            </h4>
+
+            <p class="text-muted mb-4">
+                Select your crop and describe the symptoms you observe.
+                The system will automatically diagnose using expert rules.
+            </p>
+
+            <form method="POST">
+
+                <!-- ===============================
+                     CROP SELECTION
+                =============================== -->
+                <div class="form-group mb-3">
+                    <label class="font-weight-bold">
+                        🌱 Crop
+                    </label>
+                    <select name="crop_id" class="form-control" required>
+                        <option value="" disabled selected>
+                            -- Select crop --
+                        </option>
+                        {% for crop in crops %}
+                        <option value="{{ crop.id }}">
+                            {{ crop.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- ===============================
+                     SYMPTOMS INPUT
+                =============================== -->
+                <div class="form-group mb-4">
+                    <label class="font-weight-bold">
+                        🧾 Symptoms
+                    </label>
+                    <textarea
+                        name="symptoms"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Example: yellow leaves, brown spots, wilting"
+                        required></textarea>
+
+                    <small class="form-text text-muted">
+                        • Separate symptoms using commas<br>
+                        • Use simple words (e.g. yellow leaves, spots, rot)
+                    </small>
+                </div>
+
+                <!-- ===============================
+                     SUBMIT
+                =============================== -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{{ url_for('farmer.dashboard') }}"
+                       class="btn btn-outline-secondary">
+                        ← Back
+                    </a>
+
+                    <button type="submit" class="btn btn-success px-4">
+                        🔍 Diagnose Now
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "layouts/base.html" %}
+{% block title %}Expert Chats{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+
+    <h3>💬 Farmer Questions</h3>
+
+    {% if chats %}
+        <ul class="list-group mt-3">
+            {% for c in chats %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <strong>Farmer ID:</strong> {{ c.farmer_id }}<br>
+                        <small>{{ c.message[:80] }}...</small>
+                    </div>
+                    <a href="{{ url_for('expert.reply_chat', farmer_id=c.farmer_id) }}"
+                       class="btn btn-sm btn-success">
+                        Reply
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No farmer messages</p>
+    {% endif %}
+
+</div>
+{% endblock %}

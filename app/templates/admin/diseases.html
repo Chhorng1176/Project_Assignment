@@ -1,0 +1,104 @@
+{% extends "layouts/base.html" %}
+{% block title %}Disease Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h4 mb-0 text-gray-800 font-weight-bold">
+            🦠 បញ្ជីជំងឺរុក្ខជាតិ (Diseases List)
+        </h1>
+
+        <div>
+            <a href="{{ url_for('admin.dashboard') }}"
+               class="btn btn-sm btn-secondary shadow-sm">
+                <i class="fas fa-arrow-left fa-sm"></i>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('admin.create_disease') }}"
+               class="btn btn-sm btn-danger shadow-sm ml-2">
+                <i class="fas fa-plus fa-sm"></i>
+                បញ្ចូលជំងឺថ្មី
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">
+              <span>&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- Disease Table -->
+    <div class="card shadow mb-4 border-left-danger">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-danger">
+                📋 ព័ត៌មានជំងឺក្នុងប្រព័ន្ធ
+            </h6>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead class="bg-light text-dark text-center">
+                        <tr>
+                            <th width="60">ID</th>
+                            <th>ឈ្មោះជំងឺ</th>
+                            <th>រោគសញ្ញា</th>
+                            <th width="150">សកម្មភាព</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for disease in diseases %}
+                        <tr>
+                            <td class="text-center">{{ disease.id }}</td>
+                            <td class="font-weight-bold text-primary">
+                                {{ disease.name }}
+                            </td>
+                            <td>
+                                {{ disease.description|truncate(120) if disease.description else "-" }}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ url_for('admin.edit_disease', disease_id=disease.id) }}"
+                                   class="btn btn-warning btn-sm"
+                                   title="កែប្រែ">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <form method="POST"
+                                      action="{{ url_for('admin.delete_disease', disease_id=disease.id) }}"
+                                      class="d-inline"
+                                      onsubmit="return confirm('តើអ្នកពិតជាចង់លុបជំងឺនេះមែនទេ?');">
+                                    <button class="btn btn-danger btn-sm"
+                                            title="លុប">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4"
+                                class="text-center text-muted py-4">
+                                ❌ មិនទាន់មានទិន្នន័យជំងឺនៅឡើយទេ
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

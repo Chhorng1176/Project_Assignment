@@ -1,0 +1,49 @@
+{% extends "layouts/base.html" %}
+{% block title %}Expert Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <h3 class="mb-4 text-primary">
+        🧑‍⚕️ Expert Dashboard
+    </h3>
+
+    <div class="row">
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Pending Diagnoses</h5>
+                    <p class="display-6 text-warning">
+                        {{ pending_count or 0 }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Total Reviewed</h5>
+                    <p class="display-6 text-success">
+                        {{ reviewed_count or 0 }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Farmer Chats</h5>
+                    <p class="display-6 text-info">
+                        {{ chat_count or 0 }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

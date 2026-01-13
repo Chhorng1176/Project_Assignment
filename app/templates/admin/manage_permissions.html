@@ -1,0 +1,45 @@
+{% extends "layouts/base.html" %}
+{% block title %}Manage Permissions{% endblock %}
+
+{% block content %}
+<h1 class="h4 mb-4 font-weight-bold">
+    Manage Permissions – {{ role.name }}
+</h1>
+
+<form method="POST" class="col-md-8 p-0">
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            {% for perm in permissions %}
+            <div class="form-check mb-2">
+                <input class="form-check-input"
+                       type="checkbox"
+                       name="permissions"
+                       value="{{ perm.id }}"
+                       id="perm{{ perm.id }}"
+                       {% if perm in role.permissions %}checked{% endif %}>
+
+                <label class="form-check-label" for="perm{{ perm.id }}">
+                    <strong>{{ perm.code }}</strong>
+                    <span class="text-muted">– {{ perm.name }}</span>
+                </label>
+            </div>
+            {% endfor %}
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">
+                    Save Permissions
+                </button>
+
+                <a href="{{ url_for('admin.roles') }}"
+                   class="btn btn-secondary ml-2">
+                    Cancel
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+{% endblock %}

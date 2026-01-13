@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+{% block title %}Farmer Chats{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4" style="max-width: 900px;">
+
+    <h4 class="mb-4">💬 Farmer Chat Requests</h4>
+
+    {% if farmers %}
+        <div class="list-group">
+            {% for farmer in farmers %}
+                <a href="{{ url_for('expert.reply_chat', farmer_id=farmer.id) }}"
+                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <strong>{{ farmer.username }}</strong><br>
+                        <small class="text-muted">
+                            Click to reply messages
+                        </small>
+                    </div>
+
+                    <span class="badge badge-success badge-pill">
+                        Chat
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">
+            No farmer chats yet.
+        </p>
+    {% endif %}
+
+</div>
+{% endblock %}

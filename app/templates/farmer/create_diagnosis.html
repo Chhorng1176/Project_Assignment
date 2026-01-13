@@ -1,0 +1,48 @@
+{% extends "layouts/base.html" %}
+{% block title %}Create Diagnosis{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4">🌱 Create Diagnosis Request</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <!-- Crop Name -->
+                <div class="form-group">
+                    {{ form.crop_name.label(class="form-label") }}
+                    {{ form.crop_name(class="form-control", placeholder="Enter crop name") }}
+                    {% for error in form.crop_name.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <!-- Disease Name -->
+                <div class="form-group">
+                    {{ form.disease_name.label(class="form-label") }}
+                    {{ form.disease_name(class="form-control", placeholder="Describe disease or symptoms") }}
+                    {% for error in form.disease_name.errors %}
+                        <small class="text-danger">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-success">
+                    ✅ Submit Diagnosis
+                </button>
+
+                <a href="{{ url_for('farmer.dashboard') }}"
+                   class="btn btn-secondary ml-2">
+                    Cancel
+                </a>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

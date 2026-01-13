@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Approve Diagnosis</title>
+</head>
+<body>
+
+<h2>🧑‍🔬 Approve Diagnosis</h2>
+
+<p><strong>Crop:</strong> {{ diagnosis.crop_name }}</p>
+<p><strong>Disease:</strong> {{ diagnosis.disease_name }}</p>
+<p>
+    <strong>Status:</strong>
+    {% if diagnosis.status == "PENDING" %}
+        <span style="color: orange;">PENDING</span>
+    {% else %}
+        <span style="color: green;">APPROVED</span>
+    {% endif %}
+</p>
+
+<hr>
+
+<!-- ✅ IMPORTANT: correct action URL -->
+<form method="POST" action="{{ url_for('expert.approve_diagnosis', id=diagnosis.id) }}">
+    <label for="solution"><strong>Expert Solution</strong></label><br>
+    <textarea
+        id="solution"
+        name="solution"
+        rows="6"
+        cols="60"
+        placeholder="Write treatment / recommendation here..."
+        required
+    ></textarea>
+
+    <br><br>
+
+    <button type="submit">✅ Approve Diagnosis</button>
+</form>
+
+<br>
+<a href="{{ url_for('expert.dashboard') }}">⬅ Back to Dashboard</a>
+
+</body>
+</html>

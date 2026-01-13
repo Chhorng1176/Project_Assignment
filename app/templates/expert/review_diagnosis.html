@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+{% block title %}Review Diagnosis{% endblock %}
+
+{% block content %}
+<h3 class="mb-4"> Review Diagnosis</h3>
+
+<div class="row">
+
+    <!-- Diagnosis Info -->
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <strong>Diagnosis Information</strong>
+            </div>
+            <div class="card-body">
+
+                <p><strong>Crop:</strong> {{ diagnosis.crop_name }}</p>
+                <p><strong>Symptoms:</strong><br>{{ diagnosis.symptoms }}</p>
+                <p><strong>Auto Disease:</strong> {{ diagnosis.disease_name }}</p>
+
+                {% if diagnosis.confidence %}
+                <p>
+                    <strong>Confidence:</strong>
+                    {{ (diagnosis.confidence * 100) | round(1) }}%
+                </p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Expert Action -->
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <strong>Expert Decision</strong>
+            </div>
+            <div class="card-body">
+
+                <!-- APPROVE -->
+                <form method="POST">
+                    <input type="hidden" name="action" value="approve">
+
+                    <div class="form-group">
+                        <label>Expert Solution</label>
+                        <textarea name="solution"
+                                  class="form-control"
+                                  rows="4"
+                                  placeholder="Write treatment / advice..."
+                                  required></textarea>
+                    </div>
+
+                    <button class="btn btn-success">
+                        ✅ Approve Diagnosis
+                    </button>
+                </form>
+
+                <hr>
+
+                <!-- REJECT -->
+                <form method="POST">
+                    <input type="hidden" name="action" value="reject">
+
+                    <button class="btn btn-danger">
+                        ❌ Reject Diagnosis
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

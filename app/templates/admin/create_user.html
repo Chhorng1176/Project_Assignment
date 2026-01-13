@@ -1,0 +1,61 @@
+{% extends "layouts/base.html" %}
+{% block title %}Create User{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="max-width:600px">
+
+    <h3 class="mb-4">➕ Create User</h3>
+
+    <form method="POST" action="{{ url_for('admin.create_user') }}">
+
+        <!-- Username -->
+        <div class="form-group">
+            <label>Username</label>
+            <input
+                name="username"
+                class="form-control"
+                placeholder="Enter username"
+                required
+            >
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label>Password</label>
+            <input
+                name="password"
+                type="password"
+                class="form-control"
+                placeholder="Enter password"
+                required
+            >
+        </div>
+
+        <!-- Role -->
+        <div class="form-group">
+            <label>Role</label>
+            <select name="role" class="form-control" required>
+                <option value="" disabled selected>-- Select Role --</option>
+                {% for r in roles %}
+                <option value="{{ r.name }}">
+                    {{ r.name|capitalize }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success">
+                ✅ Create User
+            </button>
+            <a href="{{ url_for('admin.users') }}"
+               class="btn btn-secondary ml-2">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}

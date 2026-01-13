@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+{% block title %}Rules Engine{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between mb-3">
+        <h1 class="h4 font-weight-bold">🧠 Diagnosis Rules</h1>
+        <a href="{{ url_for('admin.create_rule') }}"
+           class="btn btn-success">➕ Add Rule</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Rule</th>
+                <th>Disease</th>
+                <th>Symptoms</th>
+                <th>Confidence</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rules %}
+            <tr>
+                <td>{{ r.name }}</td>
+                <td>{{ r.disease.name }}</td>
+                <td>{{ r.symptoms }}</td>
+                <td>{{ r.confidence }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

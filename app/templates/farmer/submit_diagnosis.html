@@ -1,0 +1,22 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+
+<h3>Submit Crop Diagnosis</h3>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.crop_name.label }}
+        {{ form.crop_name(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.disease_name.label }}
+        {{ form.disease_name(class="form-control") }}
+    </div>
+
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Farmer{% endblock %}</title>
+
+    <!-- SB Admin base style -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='sb-admin/css/sb-admin-2.min.css') }}">
+
+    <!-- Custom global style -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            overflow: hidden;
+            font-family: "Inter", "Segoe UI", sans-serif;
+        }
+
+        /* Sidebar */
+        .farmer-sidebar {
+            width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .history-item {
+            cursor: pointer;
+            padding: 8px 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .history-item:hover {
+            background: #f1f5f9;
+        }
+
+        /* Main content */
+        .farmer-main {
+            background: #f8fafc;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="d-flex vh-100">
+
+    <!-- ===============================
+         LEFT SIDEBAR (ChatGPT-style)
+    =============================== -->
+    <div class="farmer-sidebar d-flex flex-column p-3">
+
+        <!-- Logo / Title -->
+        <h5 class="text-success mb-3">
+            🌾 Farmer AI
+        </h5>
+
+        <!-- New Chat -->
+        <a href="{{ url_for('farmer.chat') }}"
+           class="btn btn-success btn-sm mb-3">
+            ➕ New Chat
+        </a>
+
+        <hr>
+
+        <!-- History -->
+        <small class="text-muted mb-2">Recent Diagnoses</small>
+
+        <div class="flex-grow-1 overflow-auto">
+            {% if diagnoses and diagnoses|length > 0 %}
+                {% for d in diagnoses %}
+                    <div class="history-item small text-truncate mb-1">
+                        🌱 {{ d.crop_name }} – {{ d.disease_name }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-muted small mt-3">
+                    No history yet
+                </div>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- Logout -->
+        <a href="{{ url_for('auth.logout') }}"
+           class="btn btn-outline-danger btn-sm mt-auto">
+            Logout
+        </a>
+
+    </div>
+
+    <!-- ===============================
+         MAIN CONTENT AREA
+    =============================== -->
+    <div class="flex-grow-1 farmer-main d-flex flex-column">
+        {% block content %}{% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>

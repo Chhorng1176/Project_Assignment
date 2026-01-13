@@ -1,0 +1,70 @@
+{% extends "layouts/base.html" %}
+{% block title %}Crops{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h4 font-weight-bold text-gray-800">
+            🌱 Crop Management
+        </h1>
+
+        <!-- ✅ FIXED URL -->
+        <a href="{{ url_for('admin.create_crop') }}"
+           class="btn btn-success shadow-sm">
+           ➕ Add Crop
+        </a>
+    </div>
+
+    <!-- Crop Table -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-bordered mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th width="180" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for crop in crops %}
+                    <tr>
+                        <td>{{ crop.name }}</td>
+                        <td>{{ crop.description or "-" }}</td>
+                        <td class="text-center">
+
+                            <!-- Edit -->
+                            <a href="{{ url_for('admin.edit_crop', crop_id=crop.id) }}"
+                               class="btn btn-sm btn-primary mr-1">
+                                Edit
+                            </a>
+
+                            <!-- Delete -->
+                            <form method="POST"
+                                  action="{{ url_for('admin.delete_crop', crop_id=crop.id) }}"
+                                  class="d-inline"
+                                  onsubmit="return confirm('Are you sure you want to delete this crop?')">
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-4">
+                            No crops found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

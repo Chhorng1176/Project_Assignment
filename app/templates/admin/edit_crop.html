@@ -1,0 +1,29 @@
+{% extends "layouts/base.html" %}
+{% block title %}Edit Crop{% endblock %}
+
+{% block content %}
+<div class="container-fluid col-md-6">
+
+    <h4 class="mb-4">✏️ Edit Crop</h4>
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Crop Name</label>
+            <input type="text" name="name"
+                   value="{{ crop.name }}"
+                   class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description"
+                      class="form-control">{{ crop.description }}</textarea>
+        </div>
+
+        <button class="btn btn-primary">Update</button>
+        <a href="{{ url_for('admin.crops') }}"
+           class="btn btn-secondary">Cancel</a>
+    </form>
+
+</div>
+{% endblock %}

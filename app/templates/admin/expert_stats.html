@@ -1,0 +1,146 @@
+{% extends "layouts/base.html" %}
+{% block title %}Expert Statistics{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- PAGE TITLE -->
+    <h1 class="h4 mb-4 font-weight-bold text-success">
+        <i class="fas fa-chart-line mr-2"></i> Expert Statistics Dashboard
+    </h1>
+
+    <!-- ===============================
+         SUMMARY CARDS
+         =============================== -->
+    <div class="row mb-4">
+
+        <!-- TOTAL DIAGNOSES -->
+        <div class="col-md-4 mb-3">
+            <div class="card border-left-success shadow-sm h-100">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Total Diagnoses
+                    </div>
+                    <div class="h3 font-weight-bold text-gray-800">
+                        {{ total_diagnoses or 0 }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- APPROVED -->
+        <div class="col-md-4 mb-3">
+            <div class="card border-left-primary shadow-sm h-100">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Approved
+                    </div>
+                    <div class="h3 font-weight-bold text-gray-800">
+                        {{ approved_count or 0 }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PENDING -->
+        <div class="col-md-4 mb-3">
+            <div class="card border-left-warning shadow-sm h-100">
+                <div class="card-body">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                        Pending
+                    </div>
+                    <div class="h3 font-weight-bold text-gray-800">
+                        {{ pending_count or 0 }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===============================
+         CHARTS
+         =============================== -->
+    <div class="row">
+
+        <!-- MONTHLY LINE CHART -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header font-weight-bold text-success">
+                    Monthly Diagnoses
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyChart" height="120"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOP DISEASE PIE CHART -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header font-weight-bold text-success">
+                    Top Diseases
+                </div>
+                <div class="card-body">
+                    <canvas id="diseaseChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===============================
+     CHART.JS
+     =============================== -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* ===============================
+   MONTHLY LINE CHART
+   =============================== */
+const monthlyCtx = document.getElementById("monthlyChart");
+
+if (monthlyCtx) {
+    new Chart(monthlyCtx, {
+        type: "line",
+        data: {
+            labels: {{ months|default([])|tojson }},
+            datasets: [{
+                label: "Diagnoses",
+                data: {{ month_values|default([])|tojson }},
+                borderWidth: 2,
+                tension: 0.4,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+}
+
+/* ===============================
+   DISEASE PIE CHART
+   =============================== */
+const diseaseCtx = document.getElementById("diseaseChart");
+
+if (diseaseCtx) {
+    new Chart(diseaseCtx, {
+        type: "pie",
+        data: {
+            labels: {{ disease_labels|default([])|tojson }},
+            datasets: [{
+                data: {{ disease_values|default([])|tojson }}
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+}
+</script>
+{% endblock %}

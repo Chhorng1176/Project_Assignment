@@ -1,0 +1,44 @@
+{% extends "layouts/base.html" %}
+{% block title %}Create Crop{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <h1 class="h4 mb-4 font-weight-bold">➕ Add New Crop</h1>
+
+    <div class="card shadow col-md-6 p-0">
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="form-group">
+                    <label>Crop Name</label>
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description"
+                              class="form-control"
+                              rows="4"></textarea>
+                </div>
+
+                <button class="btn btn-success">
+                    Save
+                </button>
+
+                <a href="{{ url_for('admin.crops') }}"
+                   class="btn btn-secondary ml-2">
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

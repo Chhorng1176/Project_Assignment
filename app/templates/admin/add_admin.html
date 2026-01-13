@@ -1,0 +1,115 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Add Admin{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+    <!-- Header -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-900 font-weight-bold">
+            👑 បង្កើតអ្នកគ្រប់គ្រងថ្មី (New Admin)
+        </h1>
+
+        <!-- ✅ FIXED BACK BUTTON -->
+        <a href="{{ url_for('admin.users') }}"
+           class="btn btn-light btn-sm shadow-sm rounded-pill px-3">
+            <i class="fas fa-arrow-left mr-1"></i> ត្រឡប់ក្រោយ
+        </a>
+    </div>
+
+    <!-- Form Card -->
+    <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-8">
+            <div class="card border-0 shadow-lg rounded-xl overflow-hidden">
+
+                <div class="card-header bg-success py-3">
+                    <h6 class="m-0 font-weight-bold text-white h5 text-center">
+                        ព័ត៌មានគណនី Admin
+                    </h6>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <form action="{{ url_for('admin.add_admin') }}" method="POST">
+
+                        <!-- Username -->
+                        <div class="form-group mb-4">
+                            <label class="text-gray-700 font-weight-bold">
+                                ឈ្មោះអ្នកប្រើប្រាស់ (Username)
+                            </label>
+                            <input type="text"
+                                   name="username"
+                                   class="form-control custom-input"
+                                   placeholder="បញ្ចូលឈ្មោះ..."
+                                   required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group mb-4">
+                            <label class="text-gray-700 font-weight-bold">
+                                អ៊ីមែល (Email Address)
+                            </label>
+                            <input type="email"
+                                   name="email"
+                                   class="form-control custom-input"
+                                   placeholder="admin@example.com"
+                                   required>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group mb-4">
+                            <label class="text-gray-700 font-weight-bold">
+                                ពាក្យសម្ងាត់ (Password)
+                            </label>
+                            <input type="password"
+                                   name="password"
+                                   class="form-control custom-input"
+                                   placeholder="********"
+                                   required>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit"
+                                class="btn btn-success btn-block rounded-pill shadow py-2 font-weight-bold">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            បង្កើតគណនីឥឡូវនេះ
+                        </button>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Page Styles -->
+<style>
+    .rounded-xl {
+        border-radius: 1.25rem !important;
+    }
+
+    .custom-input {
+        border: 2px solid #f1f3f9;
+        border-radius: 0.75rem;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .custom-input:focus {
+        border-color: #1cc88a;
+        box-shadow: 0 0 0 0.2rem rgba(28, 200, 138, 0.1);
+    }
+
+    .btn-success {
+        background-color: #1cc88a;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background-color: #17a673;
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
