@@ -4,16 +4,21 @@
 {% block content %}
 <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">
-            🔐 Roles Management
+    <!-- ===============================
+         PAGE HEADING
+    =============================== -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0">
+            Roles Management
         </h1>
     </div>
 
-    <!-- Roles Table -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
+    <!-- ===============================
+         ROLES TABLE
+    =============================== -->
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
             <h6 class="m-0 font-weight-bold text-primary">
                 System Roles
             </h6>
@@ -22,44 +27,53 @@
         <div class="card-body">
             <div class="table-responsive">
 
-                <table class="table table-bordered table-hover" width="100%" cellspacing="0">
+                <table class="table table-hover align-middle" width="100%">
                     <thead class="thead-light">
                         <tr>
-                            <th style="width: 30%;">Role Name</th>
-                            <th style="width: 30%;">Total Permissions</th>
-                            <th style="width: 40%;">Actions</th>
+                            <th style="width:30%">Role Name</th>
+                            <th style="width:30%">Total Permissions</th>
+                            <th style="width:40%">Actions</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         {% for role in roles %}
                         <tr>
-                            <td class="font-weight-bold">
-                                {{ role.name | upper }}
+                            <!-- Role Name -->
+                            <td class="font-weight-bold text-uppercase">
+                                {{ role.name }}
                             </td>
 
+                            <!-- Permissions Count -->
                             <td>
-                                <span class="badge badge-info p-2">
+                                <span class="badge badge-info">
                                     {{ role.permissions|length }} permissions
                                 </span>
                             </td>
 
+                            <!-- Actions -->
                             <td>
-                                <!-- ✅ FIXED URL (NO BuildError) -->
                                 <a href="{{ url_for('admin.manage_role_permissions', role_id=role.id) }}"
-                                   class="btn btn-sm btn-primary shadow-sm">
-                                    <i class="fas fa-key mr-1"></i>
-                                    Manage Permissions
+                                   class="btn btn-success btn-sm d-inline-flex align-items-center gap-2">
+
+                                    <!-- PNG ICON -->
+                                    <img src="{{ url_for('static', filename='img/logo/manage-permissions.png') }}"
+                                         alt="Manage Permissions"
+                                         style="width:16px;height:16px;">
+
+                                    <span>Manage Permissions</span>
                                 </a>
                             </td>
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="3" class="text-center text-muted">
+                            <td colspan="3" class="text-center text-muted py-4">
                                 No roles found.
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
+
                 </table>
 
             </div>

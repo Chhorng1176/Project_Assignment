@@ -2,16 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <title>{% block title %}System{% endblock %}</title>
+    <title>{% block title %}Agri Expert System{% endblock %}</title>
 
     <!-- ===============================
-         SB ADMIN CSS
+         META (Responsive)
     =============================== -->
-    <link
-        href="{{ url_for('static', filename='sb-admin/css/sb-admin-2.min.css') }}"
-        rel="stylesheet"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- ===============================
          GOOGLE FONTS (EN + KH)
@@ -19,66 +15,105 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&
-              family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <!-- English -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Khmer -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <!-- ===============================
-         GLOBAL FONT & UI STYLE
-         (Admin + Expert ONLY)
+         FONT AWESOME (Icons)
+    =============================== -->
+    <link href="{{ url_for('static', filename='sb-admin/vendor/fontawesome-free/css/all.min.css') }}"
+          rel="stylesheet">
+
+    <!-- ===============================
+         SB ADMIN CSS
+    =============================== -->
+    <link href="{{ url_for('static', filename='sb-admin/css/sb-admin-2.min.css') }}"
+          rel="stylesheet">
+
+    <!-- ===============================
+         CUSTOM GLOBAL STYLE (OVERRIDE)
+         MUST BE LAST
+    =============================== -->
+    <link href="{{ url_for('static', filename='css/style.css') }}"
+          rel="stylesheet">
+
+    <!-- ===============================
+         GLOBAL FONT OVERRIDE
     =============================== -->
     <style>
         :root {
             --font-en: "Inter", "Poppins", sans-serif;
             --font-kh: "Kantumruy Pro", "Khmer OS", sans-serif;
+            --primary: #1cc88a;
+            --secondary: #4e73df;
+            --dark: #2d3748;
+            --muted: #718096;
+        }
+
+        /* Force override SB Admin */
+        * {
+            font-family: var(--font-en), var(--font-kh) !important;
         }
 
         body {
-            font-family: var(--font-en), var(--font-kh);
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #2d2d2d;
+            color: var(--dark);
             background-color: #f8f9fc;
         }
 
-        /* Headings & Khmer Priority */
-        h1, h2, h3, h4, h5, h6,
-        label,
-        .sidebar-heading,
-        .nav-link span,
-        .kh {
-            font-family: var(--font-kh), var(--font-en);
-            letter-spacing: 0.15px;
+        /* Headings */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            color: #1a202c;
         }
 
-        /* Buttons & Inputs */
-        button,
-        input,
-        select,
-        textarea {
-            font-family: var(--font-en), var(--font-kh);
+        /* Khmer text helper */
+        .kh {
+            font-family: var(--font-kh), var(--font-en) !important;
+        }
+
+        /* Sidebar */
+        .sidebar {
             font-size: 0.9rem;
+        }
+
+        .sidebar .nav-item .nav-link span {
+            font-weight: 500;
+        }
+
+        /* Topbar */
+        .topbar {
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+
+        /* Cards */
+        .card {
+            border-radius: 14px;
+        }
+
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 10px;
+            font-weight: 500;
         }
 
         /* Tables */
         table {
-            font-family: var(--font-en), var(--font-kh);
             font-size: 0.9rem;
         }
-
-        /* Sidebar look */
-        .sidebar .nav-item .nav-link {
-            font-weight: 500;
-        }
-
-        /* Card titles */
-        .card-header h5,
-        .card-header h6 {
-            font-weight: 600;
-        }
     </style>
+
 </head>
 
 <body id="page-top">
@@ -86,7 +121,7 @@
 <div id="wrapper">
 
     <!-- ===============================
-         SIDEBAR (Admin / Expert)
+         SIDEBAR
     =============================== -->
     {% include "layouts/sidebar.html" %}
 
@@ -95,24 +130,38 @@
     =============================== -->
     <div id="content-wrapper" class="d-flex flex-column">
 
+        <!-- Main Content -->
         <div id="content">
 
-            <!-- Topbar -->
+            <!-- ===============================
+                 TOPBAR
+            =============================== -->
             {% include "layouts/topbar.html" %}
 
-            <!-- Main Content -->
-            <div class="container-fluid">
+            <!-- ===============================
+                 PAGE CONTENT
+            =============================== -->
+            <div class="container-fluid pt-3">
                 {% block content %}{% endblock %}
             </div>
 
         </div>
 
-        <!-- Footer -->
+        <!-- ===============================
+             FOOTER
+        =============================== -->
         {% include "layouts/footer.html" %}
 
     </div>
 
 </div>
+
+<!-- ===============================
+     SB ADMIN JS
+=============================== -->
+<script src="{{ url_for('static', filename='sb-admin/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='sb-admin/js/sb-admin-2.min.js') }}"></script>
 
 </body>
 </html>

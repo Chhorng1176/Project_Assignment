@@ -1,0 +1,108 @@
+<!-- Topbar -->
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
+
+    <!-- Sidebar Toggle (Mobile) -->
+    <button id="sidebarToggleTop"
+            class="btn btn-link d-md-none rounded-circle mr-3">
+        <img src="{{ url_for('static', filename='img/logo/dashboard-48.png') }}"
+             style="width:20px;height:20px;">
+    </button>
+
+    <!-- ===============================
+         PAGE TITLE
+    =============================== -->
+    <div class="d-none d-sm-inline-block font-weight-bold text-gray-700">
+        Dashboard
+    </div>
+
+    <!-- ===============================
+         TOPBAR NAV
+    =============================== -->
+    <ul class="navbar-nav ml-auto">
+
+        <!-- ===============================
+             NOTIFICATIONS
+        =============================== -->
+        <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link dropdown-toggle" href="#"
+               id="alertsDropdown"
+               role="button"
+               data-toggle="dropdown">
+
+                <img src="{{ url_for('static', filename='img/logo/Notification.png') }}"
+                     style="width:20px;height:20px;">
+
+                <span class="badge badge-danger badge-counter">3</span>
+            </a>
+
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in">
+
+                <h6 class="dropdown-header">
+                    Notifications
+                </h6>
+
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                    <img src="{{ url_for('static', filename='img/logo/pending-diagnoses.png') }}"
+                         style="width:24px;height:24px;margin-right:10px;">
+                    <div>
+                        <div class="small text-gray-500">Today</div>
+                        Diagnosis approved
+                    </div>
+                </a>
+
+                <a class="dropdown-item text-center small text-gray-500" href="#">
+                    View All
+                </a>
+            </div>
+        </li>
+
+        <div class="topbar-divider d-none d-sm-block"></div>
+
+        <!-- ===============================
+             USER PROFILE
+        =============================== -->
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#"
+               id="userDropdown"
+               role="button"
+               data-toggle="dropdown">
+
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    {{ current_user.username }}
+                </span>
+
+                <img class="img-profile rounded-circle"
+                     src="{{ url_for('static', filename='img/avatar.png') }}"
+                     style="width:36px;height:36px;">
+            </a>
+
+            <!-- Dropdown -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+
+                <a class="dropdown-item" href="#">
+                    <img src="{{ url_for('static', filename='img/logo/Profile.png') }}"
+                         style="width:18px;height:18px;margin-right:8px;">
+                    Profile
+                </a>
+
+                <a class="dropdown-item" href="#">
+                    <img src="{{ url_for('static', filename='img/logo/Setting.png') }}"
+                         style="width:18px;height:18px;margin-right:8px;">
+                    Settings
+                </a>
+
+                <div class="dropdown-divider"></div>
+
+                <a class="dropdown-item text-danger"
+                   href="{{ url_for('auth.logout') }}">
+                    <img src="{{ url_for('static', filename='img/logo/Logout.png') }}"
+                         style="width:18px;height:18px;margin-right:8px;">
+                    Logout
+                </a>
+            </div>
+        </li>
+
+    </ul>
+
+</nav>
+<!-- End of Topbar -->

@@ -1,21 +1,291 @@
-/* app/static/css/style.css */
+/* =========================================
+   GOOGLE FONT
+========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-body {
-    background-color: #f8f9fc;
+/* =========================================
+   ROOT COLORS
+========================================= */
+:root {
+    --primary: #1f7a6e;
+    --primary-soft: #e6f4f1;
+    --secondary: #64748b;
+
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #38bdf8;
+
+    --bg-light: #f8fafc;
+    --card-bg: #ffffff;
+    --border-light: #e5e7eb;
+
+    --text-main: #1f2937;
+    --text-muted: #6b7280;
 }
 
+/* =========================================
+   GLOBAL RESET (SAFE)
+   ❌ HIDE SB-ADMIN FAKE SQUARES
+   ✅ KEEP REAL CHECKBOXES WORKING
+========================================= */
+
+/* Remove SB-Admin pseudo checkbox icons */
+.custom-control-label::before,
+.custom-control-label::after,
+.form-check-label::before,
+.form-check-label::after,
+.nav-link::before,
+.nav-link::after,
+.card::before,
+.card::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* ❌ DO NOT hide real checkboxes anymore */
+/* (THIS WAS THE BUG – NOW FIXED) */
+
+/* Remove list bullets */
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+/* =========================================
+   BODY
+========================================= */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    font-size: 0.95rem;
+}
+
+/* =========================================
+   TOPBAR
+========================================= */
+.navbar {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* =========================================
+   SIDEBAR (PNG ICON SUPPORT)
+========================================= */
+.sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid var(--border-light);
+}
+
+.sidebar .sidebar-brand {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: #475569 !important;
+    font-weight: 500;
+
+    border-radius: 10px;
+    margin: 4px 10px;
+    padding: 10px 14px;
+}
+
+.sidebar .nav-link:hover {
+    background-color: var(--primary-soft);
+    color: var(--primary) !important;
+}
+
+.sidebar .nav-link.active {
+    background-color: var(--primary-soft);
+    color: var(--primary) !important;
+}
+
+/* Sidebar PNG icon */
+.menu-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    opacity: 0.85;
+}
+
+/* Hide SB-admin divider */
+.sidebar-divider {
+    display: none !important;
+}
+
+/* =========================================
+   DASHBOARD / STAT CARDS
+========================================= */
+.card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+}
+
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--border-light);
+    font-weight: 600;
+}
+
+.stat-card {
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+}
+
+.stat-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 4px;
+}
+
+.stat-icon-img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    opacity: 0.9;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #16645b;
+}
+
+.btn-success { background-color: var(--success); border: none; }
+.btn-warning { background-color: var(--warning); border: none; }
+.btn-danger  { background-color: var(--danger);  border: none; }
+
+/* =========================================
+   TABLE
+========================================= */
+.table {
+    border-color: var(--border-light);
+}
+
+.table th {
+    font-weight: 600;
+    color: var(--text-muted);
+    border-top: none;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* =========================================
+   BADGES
+========================================= */
+.badge {
+    padding: 6px 10px;
+    font-weight: 500;
+    border-radius: 999px;
+}
+
+.badge-success { background-color: var(--success); }
+.badge-warning { background-color: var(--warning); }
+.badge-danger  { background-color: var(--danger); }
+.badge-info    { background-color: var(--info); }
+
+/* =========================================
+   CHAT UI
+========================================= */
 .chat-message {
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 10px 14px;
     margin-bottom: 8px;
+    max-width: 70%;
+    font-size: 14px;
 }
 
 .chat-message.user {
-    background-color: #1cc88a;
-    color: #fff;
+    background-color: var(--primary);
+    color: #ffffff;
+    margin-left: auto;
 }
 
 .chat-message.expert {
     background-color: #ffffff;
-    border: 1px solid #e3e6f0;
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    margin-right: auto;
+}
+
+/* =========================================
+   FORMS (CHECKBOXES WORK AGAIN ✅)
+========================================= */
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.form-check-input {
+    display: inline-block;
+    appearance: auto;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.form-check-label {
+    cursor: pointer;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.1rem rgba(31, 122, 110, 0.15);
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
 }

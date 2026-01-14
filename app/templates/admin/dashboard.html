@@ -5,8 +5,8 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Admin Dashboard</h1>
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0">Admin Dashboard</h1>
     </div>
 
     <!-- ===============================
@@ -16,84 +16,60 @@
 
         <!-- Total Users -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total Users
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ total_users }}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-users fa-2x text-gray-300"></i>
-                        </div>
+            <div class="card stat-card h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="stat-title">Total Users</div>
+                        <div class="stat-value">{{ total_users }}</div>
                     </div>
+                    <img src="{{ url_for('static', filename='img/logo/total-users.png') }}"
+                         alt="Total Users"
+                         class="stat-icon-img">
                 </div>
             </div>
         </div>
 
         <!-- Total Diagnoses -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total Diagnoses
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ total_diagnoses }}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-seedling fa-2x text-gray-300"></i>
-                        </div>
+            <div class="card stat-card h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="stat-title">Total Diagnoses</div>
+                        <div class="stat-value">{{ total_diagnoses }}</div>
                     </div>
+                    <img src="{{ url_for('static', filename='img/logo/total-diagnoses.png') }}"
+                         alt="Total Diagnoses"
+                         class="stat-icon-img">
                 </div>
             </div>
         </div>
 
         <!-- Pending Diagnoses -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Pending Diagnoses
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ pending_diagnoses }}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
-                        </div>
+            <div class="card stat-card h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="stat-title">Pending Diagnoses</div>
+                        <div class="stat-value">{{ pending_diagnoses }}</div>
                     </div>
+                    <img src="{{ url_for('static', filename='img/logo/pending-diagnoses.png') }}"
+                         alt="Pending Diagnoses"
+                         class="stat-icon-img">
                 </div>
             </div>
         </div>
 
-        <!-- Total Chats -->
+        <!-- Chat Messages -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                Chat Messages
-                            </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ total_chats }}
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                        </div>
+            <div class="card stat-card h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="stat-title">Chat Messages</div>
+                        <div class="stat-value">{{ total_chats }}</div>
                     </div>
+                    <img src="{{ url_for('static', filename='img/logo/chat-messages.png') }}"
+                         alt="Chat Messages"
+                         class="stat-icon-img">
                 </div>
             </div>
         </div>
@@ -103,27 +79,25 @@
     <!-- ===============================
          QUICK ACTIONS
     =============================== -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">
-                Quick Actions
-            </h6>
+    <div class="card shadow-sm mb-4">
+        <div class="card-header font-weight-bold">
+            Quick Actions
         </div>
         <div class="card-body">
 
             <a href="{{ url_for('admin.users') }}"
-               class="btn btn-primary mr-2 mb-2">
-                 Manage Users
+               class="btn btn-success mr-2 mb-2">
+                Manage Users
             </a>
 
             <a href="{{ url_for('admin.roles') }}"
                class="btn btn-secondary mr-2 mb-2">
-                 Roles & Permissions
+                Roles & Permissions
             </a>
 
             <a href="{{ url_for('admin.expert_statistics') }}"
                class="btn btn-info mb-2">
-                 Expert Statistics
+                Expert Statistics
             </a>
 
         </div>

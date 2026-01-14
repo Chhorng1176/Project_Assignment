@@ -2,44 +2,104 @@
 {% block title %}Manage Permissions{% endblock %}
 
 {% block content %}
-<h1 class="h4 mb-4 font-weight-bold">
-    Manage Permissions – {{ role.name }}
-</h1>
+<div class="container-fluid">
 
-<form method="POST" class="col-md-8 p-0">
-
-    <div class="card shadow-sm">
-        <div class="card-body">
-
-            {% for perm in permissions %}
-            <div class="form-check mb-2">
-                <input class="form-check-input"
-                       type="checkbox"
-                       name="permissions"
-                       value="{{ perm.id }}"
-                       id="perm{{ perm.id }}"
-                       {% if perm in role.permissions %}checked{% endif %}>
-
-                <label class="form-check-label" for="perm{{ perm.id }}">
-                    <strong>{{ perm.code }}</strong>
-                    <span class="text-muted">– {{ perm.name }}</span>
-                </label>
-            </div>
-            {% endfor %}
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-success">
-                    Save Permissions
-                </button>
-
-                <a href="{{ url_for('admin.roles') }}"
-                   class="btn btn-secondary ml-2">
-                    Cancel
-                </a>
-            </div>
-
-        </div>
+    <!-- ===============================
+         PAGE TITLE
+    =============================== -->
+    <div class="d-flex align-items-center mb-4">
+        <img src="{{ url_for('static', filename='img/logo/manage-permissions.png') }}"
+             style="width:28px;height:28px;margin-right:10px;">
+        <h1 class="h4 mb-0 font-weight-bold">
+            Manage Permissions – {{ role.name }}
+        </h1>
     </div>
 
-</form>
+    <form method="POST" class="col-md-8 p-0">
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <!-- ===============================
+                     PERMISSIONS LIST
+                =============================== -->
+                {% for perm in permissions %}
+                <label class="permission-item d-flex align-items-center mb-3">
+
+                    <!-- Hidden checkbox (still works) -->
+                    <input type="checkbox"
+                           name="permissions"
+                           value="{{ perm.id }}"
+                           {% if perm in role.permissions %}checked{% endif %}
+                           hidden>
+
+                    <!-- Custom checkbox UI -->
+                    <span class="permission-box"></span>
+
+                    <!-- Permission text -->
+                    <div class="ml-3">
+                        <div class="font-weight-bold">
+                            {{ perm.code }}
+                        </div>
+                        <div class="text-muted small">
+                            {{ perm.name }}
+                        </div>
+                    </div>
+
+                </label>
+                {% endfor %}
+
+                <!-- ===============================
+                     ACTION BUTTONS
+                =============================== -->
+                <div class="mt-4">
+                    <button type="submit"
+                            class="btn btn-success mr-2">
+                        Save Permissions
+                    </button>
+
+                    <a href="{{ url_for('admin.roles') }}"
+                       class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<!-- ===============================
+     LOCAL STYLE (SAFE)
+=============================== -->
+<style>
+.permission-item {
+    cursor: pointer;
+}
+
+.permission-box {
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    border: 2px solid #22c55e;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.permission-item input:checked + .permission-box {
+    background-color: #22c55e;
+}
+
+.permission-item input:checked + .permission-box::after {
+    content: "✓";
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+</style>
+
 {% endblock %}

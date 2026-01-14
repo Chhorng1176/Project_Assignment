@@ -1,199 +1,136 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion"
-    id="accordionSidebar">
+<ul class="navbar-nav sidebar accordion"
+    id="accordionSidebar"
+    style="background:#ffffff;border-right:1px solid #e5e7eb;">
 
     <!-- ===============================
-         BRAND
+         BRAND / LOGO
     =============================== -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center"
-       href="{{ url_for('main.index') }}">
-        <div class="sidebar-brand-icon">
-            <i class="fas fa-leaf"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center py-4"
+       href="{{ url_for('main.index') }}"
+       style="text-decoration:none;">
+        <img src="{{ url_for('static', filename='img/logo.jpg') }}"
+             alt="Agri Logo"
+             style="height:36px;width:auto;">
+        <span class="ml-2 font-weight-bold"
+              style="color:#1f2937;font-size:16px;">
             Agri System
-        </div>
+        </span>
     </a>
 
-    <hr class="sidebar-divider my-0">
-
     <!-- ===============================
-         ADMIN DASHBOARD
+         ADMIN
     =============================== -->
-    {% if current_user.is_authenticated
-          and current_user.has_permission("view_dashboard") %}
+    {% if current_user.is_authenticated and current_user.has_permission("view_dashboard") %}
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('admin.dashboard') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Admin Dashboard</span>
+            <img src="{{ url_for('static', filename='img/logo/dashboard-48.png') }}" class="menu-icon">
+            <span>Dashboard</span>
         </a>
     </li>
     {% endif %}
 
-    <!-- ===============================
-         ADMIN REPORTS
-    =============================== -->
-    {% if current_user.is_authenticated
-          and current_user.has_permission("view_reports") %}
+    {% if current_user.is_authenticated and current_user.has_permission("view_reports") %}
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('admin.expert_statistics') }}">
-            <i class="fas fa-fw fa-chart-line"></i>
+            <img src="{{ url_for('static', filename='img/logo/Expert Statistics.png') }}" class="menu-icon">
             <span>Expert Statistics</span>
         </a>
     </li>
     {% endif %}
 
-    <!-- ===============================
-         ADMIN AUDIT LOGS
-    =============================== -->
-    {% if current_user.is_authenticated
-          and current_user.has_permission("view_dashboard") %}
+    {% if current_user.is_authenticated and current_user.has_permission("view_dashboard") %}
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('admin.audit_logs') }}">
-            <i class="fas fa-fw fa-clipboard-list"></i>
+            <img src="{{ url_for('static', filename='img/logo/Audit Logs.png') }}" class="menu-icon">
             <span>Audit Logs</span>
         </a>
     </li>
     {% endif %}
 
-    <hr class="sidebar-divider">
-
     <!-- ===============================
          ADMINISTRATION
     =============================== -->
-    {% if current_user.is_authenticated
-          and current_user.has_permission("manage_users") %}
-    <div class="sidebar-heading">
-        Administration
-    </div>
+    {% if current_user.is_authenticated and current_user.has_permission("manage_users") %}
+    <div class="sidebar-heading mt-3">Administration</div>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('admin.users') }}">
-            <i class="fas fa-fw fa-users"></i>
+            <img src="{{ url_for('static', filename='img/logo/Users.png') }}" class="menu-icon">
             <span>Users</span>
         </a>
     </li>
     {% endif %}
 
-    {% if current_user.is_authenticated
-          and current_user.has_permission("manage_roles") %}
+    {% if current_user.is_authenticated and current_user.has_permission("manage_roles") %}
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('admin.roles') }}">
-            <i class="fas fa-fw fa-user-shield"></i>
+            <img src="{{ url_for('static', filename='img/logo/Roles & Permissions.png') }}" class="menu-icon">
             <span>Roles & Permissions</span>
         </a>
     </li>
     {% endif %}
 
     <!-- ===============================
-         🌱 CROP & DISEASE (ADMIN)
+         EXPERT
     =============================== -->
-    {% if current_user.is_authenticated
-          and current_user.has_permission("manage_crops") %}
-    <div class="sidebar-heading">
-        Crop Management
-    </div>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('admin.crops') }}">
-            <i class="fas fa-fw fa-seedling"></i>
-            <span>Crops</span>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('admin.diseases') }}">
-            <i class="fas fa-fw fa-bug"></i>
-            <span>Diseases</span>
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('admin.rules') }}">
-            <i class="fas fa-fw fa-brain"></i>
-            <span>Rule Engine</span>
-        </a>
-    </li>
-    {% endif %}
-
-    <hr class="sidebar-divider">
-
-    <!-- ===============================
-         EXPERT SYSTEM
-    =============================== -->
-    {% if current_user.is_authenticated
-          and current_user.has_role("expert") %}
-    <div class="sidebar-heading">
-        Expert
-    </div>
+    {% if current_user.is_authenticated and current_user.has_role("expert") %}
+    <div class="sidebar-heading mt-3">Expert</div>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('expert.dashboard') }}">
-            <i class="fas fa-fw fa-notes-medical"></i>
-            <span>Pending Diagnoses</span>
+            <img src="{{ url_for('static', filename='img/logo/pending-diagnoses.png') }}" class="menu-icon">
+            <span>Diagnoses</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('expert.farmer_chats') }}">
-            <i class="fas fa-fw fa-comments"></i>
+            <img src="{{ url_for('static', filename='img/logo/chat-messages.png') }}" class="menu-icon">
             <span>Farmer Chats</span>
         </a>
     </li>
     {% endif %}
 
-    <hr class="sidebar-divider">
-
     <!-- ===============================
-         FARMER SYSTEM
+         FARMER
     =============================== -->
-    {% if current_user.is_authenticated
-          and current_user.has_role("farmer") %}
-    <div class="sidebar-heading">
-        Farmer
-    </div>
+    {% if current_user.is_authenticated and current_user.has_role("farmer") %}
+    <div class="sidebar-heading mt-3">Farmer</div>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('farmer.dashboard') }}">
-            <i class="fas fa-fw fa-tractor"></i>
-            <span>My Diagnoses</span>
+            <img src="{{ url_for('static', filename='img/logo/dashboard-48.png') }}" class="menu-icon">
+            <span>Dashboard</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('farmer.diagnose') }}">
-            <i class="fas fa-fw fa-stethoscope"></i>
+            <img src="{{ url_for('static', filename='img/logo/total-diagnoses.png') }}" class="menu-icon">
             <span>New Diagnosis</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ url_for('farmer.chat') }}">
-            <i class="fas fa-fw fa-comments"></i>
+            <img src="{{ url_for('static', filename='img/logo/chat-messages.png') }}" class="menu-icon">
             <span>Ask Expert</span>
         </a>
     </li>
     {% endif %}
 
-    <hr class="sidebar-divider d-none d-md-block">
-
     <!-- ===============================
          LOGOUT
     =============================== -->
     {% if current_user.is_authenticated %}
-    <li class="nav-item">
+    <li class="nav-item mt-3">
         <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">
-            <i class="fas fa-fw fa-sign-out-alt"></i>
+            <img src="{{ url_for('static', filename='img/logo/Logout.png') }}" class="menu-icon">
             <span>Logout</span>
         </a>
     </li>
     {% endif %}
 
-    <!-- Sidebar Toggler -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0"
-                id="sidebarToggle"></button>
-    </div>
-
 </ul>
-<!-- End of Sidebar -->
+<!-- End Sidebar -->
