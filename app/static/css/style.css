@@ -2098,8 +2098,12 @@ body.farmer-no-sidebar .topbar.app-topbar {
 
 body.farmer-no-sidebar #sidebarToggleTop,
 body.farmer-no-sidebar #sidebar-icon-toggle,
-body.farmer-no-sidebar .topbar-divider:first-of-type {
+body.farmer-no-sidebar .topbar > .topbar-divider:first-of-type {
     display: none !important;
+}
+
+.dark-mode .topbar .topbar-divider {
+    border-right-color: var(--border-light, rgba(255, 255, 255, 0.12)) !important;
 }
 
 .farmer-topnav {

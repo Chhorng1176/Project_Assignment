@@ -2000,9 +2000,7 @@ html.dark-mode .fm-team-member .fm-team-avatar {
 }
 
 .fm-chip.is-selected::before {
-    content: "\2713";
-    margin-right: 0.35rem;
-    font-weight: 700;
+    content: none;
 }
 
 /* Collapsible category header above each chip group. */

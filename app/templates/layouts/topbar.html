@@ -32,8 +32,6 @@
     </button>
 
     {% if request.blueprint == 'farmer' or (request.blueprint == 'user' and not current_user.has_role('admin') and not current_user.has_role('expert')) %}
-    <div class="topbar-divider d-none d-md-block mx-2"></div>
-
     <!-- ===============================
          BRAND LOGO (farmer routes only)
     =============================== -->

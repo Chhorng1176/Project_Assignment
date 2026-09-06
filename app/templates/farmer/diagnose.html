@@ -83,7 +83,7 @@ html.dark-mode,
 .diag-page-container {
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0 0.5rem 3rem;
+    padding: 0 0.5rem 7.5rem;
 }
 
 /* Khmer Typography Rules */
@@ -377,19 +377,13 @@ html.dark-mode .diag-stepper-mobile-badge,
 }
 
 /* ==========================================================================
-   2-COLUMN WORKSPACE LAYOUT
+   FOCUSED SINGLE-COLUMN WORKSPACE LAYOUT
    ========================================================================== */
 .diag-layout-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 390px;
-    gap: 1.75rem;
-    align-items: start;
-}
-
-@media (max-width: 991.98px) {
-    .diag-layout-grid {
-        grid-template-columns: 1fr;
-    }
+    display: block;
+    max-width: 1040px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 /* ==========================================================================
@@ -853,6 +847,13 @@ html.dark-mode .diag-active-symptom-tag,
     color: #ef4444;
 }
 
+.diag-ribbon-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
 .diag-clear-all-btn {
     background: none;
     border: none;
@@ -865,6 +866,45 @@ html.dark-mode .diag-active-symptom-tag,
 
 .diag-clear-all-btn:hover {
     text-decoration: underline;
+}
+
+.diag-ribbon-submit-btn {
+    width: auto !important;
+    height: 2.15rem !important;
+    padding: 0 0.9rem !important;
+    font-size: 0.78rem !important;
+    border-radius: 9999px !important;
+    gap: 0.35rem !important;
+}
+
+.diag-toggle-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 9999px;
+    background: var(--diag-card-bg);
+    border: 1px solid var(--diag-border);
+    color: var(--diag-ink-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+.diag-toggle-all-btn:hover {
+    background: var(--diag-surface);
+    color: var(--diag-primary);
+    border-color: var(--diag-primary);
+}
+
+html.dark-mode .diag-toggle-all-btn,
+.dark-mode .diag-toggle-all-btn {
+    background: #1e293b;
+    border-color: #334155;
+    color: #94a3b8;
 }
 
 /* Category Groups */
@@ -1019,6 +1059,12 @@ html.dark-mode .diag-category-badge.has-selected,
     color: #ffffff;
     font-weight: 700;
     box-shadow: 0 2px 4px rgba(37, 99, 235, 0.25);
+}
+
+.diag-chip::before,
+.diag-chip.is-selected::before {
+    content: none !important;
+    display: none !important;
 }
 
 .diag-chip-check {
@@ -1261,9 +1307,13 @@ html.dark-mode .diag-textarea:focus,
 .diag-sidebar-column {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
     position: sticky;
-    top: 1.5rem;
+    top: calc(var(--topbar-height, 4.375rem) + 1.25rem);
+    max-height: calc(100vh - var(--topbar-height, 4.375rem) - 2rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding-right: 2px;
 }
 
 .diag-summary-card {
@@ -1553,149 +1603,204 @@ html.dark-mode .diag-submit-btn:hover:not(:disabled),
     line-height: 1.4;
 }
 
-/* Recent Diagnoses Drawer in Sidebar */
-.diag-history-card {
-    background: var(--diag-card-bg);
-    border: 1px solid var(--diag-border);
-    border-radius: 1rem;
-    padding: 1.25rem 1.5rem;
-    box-shadow: var(--diag-shadow-sm);
+/* ==========================================================================
+   UNIVERSAL FLOATING ACTION DOCK (PERSISTENT ON ALL VIEWPORTS)
+   ========================================================================== */
+.diag-floating-dock,
+.diag-mobile-bar {
+    display: block;
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(140%);
+    z-index: 1040;
+    width: calc(100% - 2.5rem);
+    max-width: 860px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--diag-border-strong);
+    border-radius: 1.25rem;
+    box-shadow: 0 14px 42px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 0.75rem 1.25rem;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
 }
 
-.diag-history-title {
-    font-size: 0.95rem;
-    font-weight: 800;
-    color: var(--diag-ink);
-    margin: 0 0 0.85rem;
+.diag-floating-dock.is-visible,
+.diag-mobile-bar.is-visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+html.dark-mode .diag-floating-dock,
+html.dark-mode .diag-mobile-bar,
+.dark-mode .diag-floating-dock,
+.dark-mode .diag-mobile-bar {
+    background: rgba(15, 23, 42, 0.94) !important;
+    border-color: rgba(56, 189, 248, 0.3) !important;
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(56, 189, 248, 0.2) !important;
+}
+
+.diag-floating-dock-inner,
+.diag-mobile-bar-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
 }
 
-.diag-history-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.diag-history-item {
+.diag-dock-left {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0.65rem 0.8rem;
-    border-radius: 0.55rem;
+    gap: 0.85rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.diag-dock-crop-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
     background: var(--diag-surface);
     border: 1px solid var(--diag-border);
-    text-decoration: none;
-    color: inherit;
-}
-
-.diag-history-item:hover {
-    border-color: var(--diag-primary);
-    background: var(--diag-surface-subtle);
-    text-decoration: none;
-    transform: translateX(2px);
-}
-
-html.dark-mode .diag-history-item,
-.dark-mode .diag-history-item {
-    background: #162032;
-    border-color: #334155;
-}
-
-html.dark-mode .diag-history-item:hover,
-.dark-mode .diag-history-item:hover {
-    background: #1e293b;
-    border-color: rgba(56, 189, 248, 0.45);
-}
-
-.diag-history-item-left strong {
-    display: block;
     font-size: 0.82rem;
-    color: var(--diag-ink);
-}
-
-.diag-history-item-left span {
-    font-size: 0.72rem;
-    color: var(--diag-ink-subtle);
-}
-
-.diag-history-badge {
-    font-size: 0.7rem;
     font-weight: 700;
-    padding: 0.15rem 0.5rem;
-    border-radius: 9999px;
-    background: var(--diag-primary-light);
+    color: var(--diag-ink);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+html.dark-mode .diag-dock-crop-pill,
+.dark-mode .diag-dock-crop-pill {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.diag-dock-info,
+.diag-mobile-status {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.diag-dock-count,
+.diag-mobile-count {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--diag-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.diag-dock-prediction,
+.diag-mobile-prediction {
+    font-size: 0.75rem;
+    color: var(--diag-primary);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+html.dark-mode .diag-dock-prediction,
+html.dark-mode .diag-mobile-prediction,
+.dark-mode .diag-dock-prediction,
+.dark-mode .diag-mobile-prediction {
+    color: #38bdf8;
+}
+
+.diag-dock-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-shrink: 0;
+}
+
+.diag-dock-jump-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 0.75rem;
+    background: var(--diag-surface);
+    border: 1px solid var(--diag-border);
+    color: var(--diag-ink);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.diag-dock-jump-btn:hover {
+    background: var(--diag-surface-subtle);
+    border-color: var(--diag-primary);
     color: var(--diag-primary);
 }
 
-html.dark-mode .diag-history-badge,
-.dark-mode .diag-history-badge {
-    color: #38bdf8;
-    background: rgba(56, 189, 248, 0.14);
+html.dark-mode .diag-dock-jump-btn,
+.dark-mode .diag-dock-jump-btn {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.diag-dock-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.45rem;
+    border-radius: 0.75rem;
+    border: none;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    height: 2.85rem;
+}
+
+.diag-dock-submit-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+}
+
+.diag-dock-submit-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+html.dark-mode .diag-dock-submit-btn,
+.dark-mode .diag-dock-submit-btn {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+    border: 1px solid rgba(56, 189, 248, 0.35) !important;
+    color: #0f172a !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25) !important;
 }
 
 /* ==========================================================================
    RESPONSIVE DESIGN SYSTEM (TABLET & MOBILE BREAKPOINTS)
    ========================================================================== */
-
-/* Mobile Floating Commit Bar Base */
-.diag-mobile-bar {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1040;
-    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
-    background: var(--diag-card-bg);
-    border-top: 1px solid var(--diag-border);
-    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(8px);
-}
-
-.diag-mobile-bar-inner {
-    max-width: 600px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.85rem;
-}
-
-.diag-mobile-status {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-width: 0;
-}
-
-.diag-mobile-count {
-    font-size: 0.85rem;
-    font-weight: 800;
-    color: var(--diag-ink);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.diag-mobile-prediction {
-    font-size: 0.72rem;
-    color: var(--diag-primary);
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 170px;
-}
-
-html.dark-mode .diag-mobile-prediction,
-.dark-mode .diag-mobile-prediction {
-    color: #38bdf8;
-}
 
 /* Tablet & Mobile (< 992px) */
 @media (max-width: 991.98px) {
@@ -1716,12 +1821,37 @@ html.dark-mode .diag-mobile-prediction,
     .diag-sidebar-column {
         position: static;
         margin-top: 0;
+        max-height: none;
+        overflow-y: visible;
     }
+    .diag-floating-dock,
     .diag-mobile-bar {
-        display: block;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 1.25rem 1.25rem 0 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        transform: translateY(100%);
+        padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
     }
-    .diag-page-container {
-        padding-bottom: 6rem;
+    .diag-floating-dock.is-visible,
+    .diag-mobile-bar.is-visible {
+        transform: translateY(0);
+    }
+    .diag-dock-crop-pill {
+        display: none;
+    }
+    .diag-dock-jump-btn {
+        display: none;
+    }
+    .diag-dock-submit-btn {
+        padding: 0.5rem 1.15rem;
+        font-size: 0.88rem;
+        height: 2.65rem;
     }
     .diag-step-connector {
         flex: 1 1 auto;
@@ -2152,9 +2282,15 @@ html.dark-mode .diag-mobile-prediction,
                         {# Selected Symptoms Ribbon Bar #}
                         <div class="diag-selected-ribbon" id="selected-symptoms-ribbon">
                             <div class="diag-selected-tags" id="selected-symptoms-tags"></div>
-                            <button type="button" class="diag-clear-all-btn" id="btn-clear-all-symptoms">
-                                <i class="fas fa-times-circle mr-1"></i>{% if is_km %}លុបការជ្រើសរើសទាំងអស់{% else %}Clear all{% endif %}
-                            </button>
+                            <div class="diag-ribbon-actions">
+                                <button type="button" class="diag-clear-all-btn" id="btn-clear-all-symptoms">
+                                    <i class="fas fa-times-circle mr-1"></i>{% if is_km %}លុបការជ្រើសរើសទាំងអស់{% else %}Clear all{% endif %}
+                                </button>
+                                <button type="button" class="diag-submit-btn diag-ribbon-submit-btn fm-btn fm-btn-primary" id="btn-submit-ribbon" disabled>
+                                    <i class="fas fa-stethoscope mr-1"></i>
+                                    <span>{{ t("diagnose_now") }}</span>
+                                </button>
+                            </div>
                         </div>
 
                         {# Symptom Search & Quick Actions #}
@@ -2193,6 +2329,12 @@ html.dark-mode .diag-mobile-prediction,
                                     <span class="badge badge-light ml-1" id="badge-cat-5" style="display:none;">0</span>
                                 </button>
                             </div>
+
+                            {# Collapse / Expand All toggle #}
+                            <button type="button" class="diag-toggle-all-btn" id="btn-toggle-all-cats" title="Expand or Collapse All Categories">
+                                <i class="fas fa-compress-alt" id="icon-toggle-all"></i>
+                                <span id="text-toggle-all">{% if is_km %}បង្រួមទាំងអស់{% else %}Collapse All{% endif %}</span>
+                            </button>
                         </div>
 
                         {# Symptoms Categories Accordions #}
@@ -2279,121 +2421,36 @@ html.dark-mode .diag-mobile-prediction,
                     </section>
                 </div>
             </div>
-
-            {# ── RIGHT COLUMN: STICKY DIAGNOSTIC INTELLIGENCE STUDIO ── #}
-            <aside class="diag-sidebar-column">
-                <div class="diag-summary-card">
-                    <div class="diag-summary-head">
-                        <h3 class="diag-summary-title">
-                            <i class="fas fa-microchip text-success"></i>
-                            {% if is_km %}ស្ទូឌីយោវិភាគផ្ទាល់{% else %}Diagnostic Studio{% endif %}
-                        </h3>
-                        <span class="diag-live-dot" title="Live Engine Active"></span>
-                    </div>
-
-                    {# Target Crop Box #}
-                    <div class="diag-summary-row">
-                        <div class="diag-summary-label">{% if is_km %}ដំណាំដែលត្រូវវិភាគ{% else %}Target Crop{% endif %}</div>
-                        <div class="diag-summary-crop-box" id="side-crop-box">
-                            <span class="diag-summary-crop-emoji" id="side-crop-emoji">🌿</span>
-                            <div>
-                                <div class="diag-summary-crop-name" id="side-crop-name">
-                                    {% if is_km %}មិនទាន់ជ្រើសរើស{% else %}No crop selected{% endif %}
-                                </div>
-                                <div class="diag-summary-crop-hint" id="side-crop-hint">
-                                    {% if is_km %}សូមជ្រើសរើសពីជំហានទី ១{% else %}Select from Step 1 above{% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {# Recorded Symptoms Counter & List #}
-                    <div class="diag-summary-row">
-                        <div class="diag-summary-label d-flex justify-content-between align-items-center">
-                            <span>{% if is_km %}រោគសញ្ញាដែលបានកត់ត្រា{% else %}Recorded Symptoms{% endif %}</span>
-                            <span class="badge badge-success font-weight-bold" id="side-symptoms-badge">0</span>
-                        </div>
-                        <div class="diag-summary-symptoms-list" id="side-symptoms-list">
-                            <span class="text-muted small p-1">
-                                {% if is_km %}មិនទាន់មានរោគសញ្ញាត្រូវបានជ្រើសរើសនៅឡើយ{% else %}No symptoms selected yet{% endif %}
-                            </span>
-                        </div>
-                    </div>
-
-                    {# Live AI / Rule Engine Real-Time Match Card (Eye-Friendly) #}
-                    <div class="diag-live-engine-card" id="side-live-engine-card">
-                        <div class="diag-live-engine-head">
-                            <span class="diag-live-engine-label">
-                                <i class="fas fa-bolt"></i>
-                                {% if is_km %}ការផ្ទៀងផ្ទាត់ផ្ទាល់{% else %}Live Rule Match{% endif %}
-                            </span>
-                            <span class="diag-confidence-badge" id="side-confidence-badge" style="display:none;">0%</span>
-                        </div>
-                        <h4 class="diag-live-prediction-name" id="side-live-disease">
-                            {% if is_km %}កំពុងរង់ចាំការជ្រើសរើសរោគសញ្ញា...{% else %}Awaiting symptom selection...{% endif %}
-                        </h4>
-                        <div class="diag-confidence-bar-bg" id="side-confidence-bar-bg" style="display:none;">
-                            <div class="diag-confidence-bar-fill" id="side-confidence-bar-fill"></div>
-                        </div>
-                        <p class="diag-live-engine-desc" id="side-live-desc">
-                            {% if is_km %}ជ្រើសរើសរោគសញ្ញាយ៉ាងហោចណាស់ ១ ដើម្បីឱ្យប្រព័ន្ធផ្ទៀងផ្ទាត់ច្បាប់វិនិច្ឆ័យស្វ័យប្រវត្តិ។{% else %}Select at least 1 symptom from Step 2 to generate real-time diagnostic predictions.{% endif %}
-                        </p>
-                    </div>
-
-                    {# Action Commit Button (Deep Emerald, White Text) #}
-                    <button type="button" class="diag-submit-btn fm-btn fm-btn-primary" id="btn-submit" disabled>
-                        <i class="fas fa-stethoscope"></i>
-                        <span>{{ t("diagnose_now") }}</span>
-                    </button>
-
-                    <div class="diag-trust-note">
-                        <i class="fas fa-shield-alt mr-1 text-success"></i>
-                        {% if is_km %}ផ្ទៀងផ្ទាត់ជាមួយទិន្នន័យការពារដំណាំ និងវិធានអ្នកជំនាញកសិកម្មកម្ពុជា{% else %}Verified against Cambodian agricultural extension & plant health rules{% endif %}
-                    </div>
-                </div>
-
-                {# Recent Diagnoses Quick List (if farmer has history) #}
-                {% if diagnoses %}
-                <div class="diag-history-card">
-                    <div class="diag-history-title">
-                        <span><i class="fas fa-history mr-1 text-muted"></i> {% if is_km %}រោគវិនិច្ឆ័យថ្មីៗរបស់អ្នក{% else %}Your Recent Diagnoses{% endif %}</span>
-                        <a href="{{ url_for('farmer.diagnosis_history') }}" class="small text-success font-weight-bold">
-                            {% if is_km %}មើលទាំងអស់{% else %}View all{% endif %}
-                        </a>
-                    </div>
-                    <ul class="diag-history-list">
-                        {% for d in diagnoses[:3] %}
-                        <li>
-                            <a href="{{ url_for('farmer.diagnosis_result', diagnosis_id=d.id) }}" class="diag-history-item">
-                                <div class="diag-history-item-left">
-                                    <strong>{{ d.crop_name }}: {{ d.disease_name }}</strong>
-                                    <span>{{ d.created_at.strftime('%b %d, %Y') if d.created_at else '' }}</span>
-                                </div>
-                                <span class="diag-history-badge">{{ d.status }}</span>
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
-            </aside>
         </div>
 
-        {# ── MOBILE FLOATING COMMIT BAR (< 992px) ── #}
-        <div class="diag-mobile-bar fm-actionbar" id="mobile-action-bar">
-            <div class="diag-mobile-bar-inner fm-actionbar-inner">
-                <div class="diag-mobile-status fm-actionbar-count">
-                    <div class="diag-mobile-count">
-                        <b id="selected-count">0</b> {% if is_km %}រោគសញ្ញាបានជ្រើសរើស{% else %}symptoms selected{% endif %}
+        {# ── UNIVERSAL FLOATING ACTION DOCK (Available on ALL Viewports) ── #}
+        <div class="diag-floating-dock diag-mobile-bar fm-actionbar" id="mobile-action-bar">
+            <div class="diag-floating-dock-inner diag-mobile-bar-inner fm-actionbar-inner">
+                <div class="diag-dock-left">
+                    <div class="diag-dock-crop-pill" id="dock-crop-pill">
+                        <span id="dock-crop-emoji">🌿</span>
+                        <strong id="dock-crop-name">{% if is_km %}ដំណាំ{% else %}Target Crop{% endif %}</strong>
                     </div>
-                    <div class="diag-mobile-prediction" id="mobile-live-prediction">
-                        {% if is_km %}មិនទាន់មានលទ្ធផល{% else %}No prediction yet{% endif %}
+                    <div class="diag-dock-info diag-mobile-status fm-actionbar-count">
+                        <div class="diag-dock-count diag-mobile-count">
+                            <span class="badge badge-success font-weight-bold mr-1" id="selected-count">0</span>
+                            <span>{% if is_km %}រោគសញ្ញាបានជ្រើស{% else %}symptoms selected{% endif %}</span>
+                        </div>
+                        <div class="diag-dock-prediction diag-mobile-prediction" id="mobile-live-prediction">
+                            {% if is_km %}កំពុងរង់ចាំការជ្រើសរើសរោគសញ្ញា...{% else %}Awaiting symptom selection...{% endif %}
+                        </div>
                     </div>
                 </div>
-                <button type="button" class="diag-submit-btn fm-btn fm-btn-primary" id="mobile-btn-submit" style="width:auto; padding: 0.5rem 1.25rem; height: 2.75rem;" disabled>
-                    <i class="fas fa-stethoscope mr-1"></i>
-                    <span>{{ t("diagnose_now") }}</span>
-                </button>
+                <div class="diag-dock-actions">
+                    <button type="button" class="diag-dock-jump-btn" id="dock-btn-jump-step3">
+                        <span>{% if is_km %}រូបភាព/ចំណាំ{% else %}Photos & Notes{% endif %}</span>
+                        <i class="fas fa-arrow-down ml-1"></i>
+                    </button>
+                    <button type="button" class="diag-submit-btn diag-dock-submit-btn fm-btn fm-btn-primary" id="mobile-btn-submit" disabled>
+                        <i class="fas fa-stethoscope mr-1"></i>
+                        <span>{{ t("diagnose_now") }}</span>
+                    </button>
+                </div>
             </div>
         </div>
     </form>
@@ -2424,8 +2481,18 @@ html.dark-mode .diag-mobile-prediction,
     const sympCats        = document.getElementById("symptoms-categories");
     const notes           = document.getElementById("additional-notes");
     const countEl         = document.getElementById("selected-count");
-    const btnSubmit       = document.getElementById("btn-submit");
     const mobileBtnSubmit = document.getElementById("mobile-btn-submit");
+    const btnSubmitRibbon = document.getElementById("btn-submit-ribbon");
+    const floatingDock    = document.getElementById("mobile-action-bar");
+    const dockCropEmoji   = document.getElementById("dock-crop-emoji");
+    const dockCropName    = document.getElementById("dock-crop-name");
+
+    function getAllSubmitButtons() {
+        return [
+            mobileBtnSubmit,
+            btnSubmitRibbon
+        ].filter(Boolean);
+    }
     const fileInput       = document.getElementById("diagnosis_image");
     const fileLabel       = document.getElementById("diagnosis_image_label");
     const thumbs          = document.getElementById("image-preview-container");
@@ -2477,13 +2544,19 @@ html.dark-mode .diag-mobile-prediction,
         const kh = nameKh || "";
         if (n.includes("leaf") || n.includes("leaves") || n.includes("spot") || n.includes("yellow") ||
             n.includes("chlorosis") || n.includes("rust") || n.includes("streak") || n.includes("blast") ||
-            n.includes("blight") || n.includes("curl") || n.includes("mildew") || kh.includes("ស្លឹក")) return 2;
+            n.includes("blight") || n.includes("curl") || n.includes("mildew") || n.includes("scorch") ||
+            n.includes("stippl") || n.includes("defoliat") || n.includes("blade") || n.includes("speck") ||
+            n.includes("mottl") || kh.includes("ស្លឹក")) return 2;
         if (n.includes("stem") || n.includes("stalk") || n.includes("sheath") || n.includes("canker") ||
             n.includes("rot") || n.includes("vascular") || n.includes("bore") || n.includes("dead heart") ||
-            kh.includes("ដើម") || kh.includes("ស្រទប") || kh.includes("បណ្ដូល")) return 3;
+            n.includes("root") || n.includes("corm") || n.includes("collar") || n.includes("bulb") ||
+            n.includes("pith") || n.includes("girdl") || n.includes("internode") || n.includes("lodging") ||
+            kh.includes("ដើម") || kh.includes("ស្រទប") || kh.includes("បណ្ដូល") || kh.includes("ឫស") || kh.includes("គល់") || kh.includes("ថ្នាំង")) return 3;
         if (n.includes("fruit") || n.includes("grain") || n.includes("pod") || n.includes("flower") ||
             n.includes("seed") || n.includes("panicle") || n.includes("ear") || n.includes("tuber") ||
-            kh.includes("ផ្លែ") || kh.includes("ផ្កា") || kh.includes("គ្រាប់") || kh.includes("កួរ") || kh.includes("មើម")) return 4;
+            n.includes("peel") || n.includes("husk") || n.includes("scab") || n.includes("floret") ||
+            n.includes("silk") || n.includes("finger") || n.includes("bunch") ||
+            kh.includes("ផ្លែ") || kh.includes("ផ្កា") || kh.includes("គ្រាប់") || kh.includes("កួរ") || kh.includes("មើម") || kh.includes("សំបក") || kh.includes("ត្រយ៉ូង") || kh.includes("ស្និត")) return 4;
         return 5;
     }
 
@@ -2500,10 +2573,20 @@ html.dark-mode .diag-mobile-prediction,
         if (countEl) countEl.textContent = count;
         if (sideSympBadge) sideSympBadge.textContent = count;
 
-        // Enable / disable submit buttons
+        // Enable / disable submit buttons across all milestone locations
         const canSubmit = selectedCropId && (count > 0 || note.length > 0);
-        btnSubmit.disabled = !canSubmit;
-        if (mobileBtnSubmit) mobileBtnSubmit.disabled = !canSubmit;
+        getAllSubmitButtons().forEach(btn => {
+            btn.disabled = !canSubmit;
+        });
+
+        // Floating Action Dock visibility
+        if (floatingDock) {
+            if (selectedCropId) {
+                floatingDock.classList.add("is-visible");
+            } else {
+                floatingDock.classList.remove("is-visible");
+            }
+        }
 
         // Update Stepper Progress
         if (selectedCropId) {
@@ -2558,18 +2641,20 @@ html.dark-mode .diag-mobile-prediction,
             selectedTags.innerHTML = "";
         }
 
-        // Update Sidebar Symptoms List
-        if (count > 0) {
-            sideSympList.innerHTML = "";
-            selected.forEach((item, name) => {
-                const tag = document.createElement("span");
-                tag.className = "diag-side-tag";
-                const display = (isKm && item.name_kh) ? item.name_kh : item.name;
-                tag.innerHTML = `<span>${display}</span><i class="fas fa-times-circle" data-symp="${name}"></i>`;
-                sideSympList.appendChild(tag);
-            });
-        } else {
-            sideSympList.innerHTML = `<span class="text-muted small p-1">${isKm ? "មិនទាន់មានរោគសញ្ញាត្រូវបានជ្រើសរើសនៅឡើយ" : "No symptoms selected yet"}</span>`;
+        // Update Sidebar Symptoms List if present
+        if (sideSympList) {
+            if (count > 0) {
+                sideSympList.innerHTML = "";
+                selected.forEach((item, name) => {
+                    const tag = document.createElement("span");
+                    tag.className = "diag-side-tag";
+                    const display = (isKm && item.name_kh) ? item.name_kh : item.name;
+                    tag.innerHTML = `<span>${display}</span><i class="fas fa-times-circle" data-symp="${name}"></i>`;
+                    sideSympList.appendChild(tag);
+                });
+            } else {
+                sideSympList.innerHTML = `<span class="text-muted small p-1">${isKm ? "មិនទាន់មានរោគសញ្ញាត្រូវបានជ្រើសរើសនៅឡើយ" : "No symptoms selected yet"}</span>`;
+            }
         }
 
         // Update Category Badges
@@ -2604,15 +2689,15 @@ html.dark-mode .diag-mobile-prediction,
     function triggerLiveEvaluation() {
         clearTimeout(liveEvalTimer);
         if (!selectedCropId || selected.size === 0) {
-            sideLiveDisease.textContent = isKm ? "កំពុងរង់ចាំការជ្រើសរើសរោគសញ្ញា..." : "Awaiting symptom selection...";
-            sideLiveDesc.textContent = isKm ? "ជ្រើសរើសរោគសញ្ញាយ៉ាងហោចណាស់ ១ ដើម្បីឱ្យប្រព័ន្ធផ្ទៀងផ្ទាត់ច្បាប់វិនិច្ឆ័យស្វ័យប្រវត្តិ។" : "Select at least 1 symptom from Step 2 to generate real-time diagnostic predictions.";
-            sideConfidenceBadge.style.display = "none";
-            sideBarBg.style.display = "none";
+            if (sideLiveDisease) sideLiveDisease.textContent = isKm ? "កំពុងរង់ចាំការជ្រើសរើសរោគសញ្ញា..." : "Awaiting symptom selection...";
+            if (sideLiveDesc) sideLiveDesc.textContent = isKm ? "ជ្រើសរើសរោគសញ្ញាយ៉ាងហោចណាស់ ១ ដើម្បីឱ្យប្រព័ន្ធផ្ទៀងផ្ទាត់ច្បាប់វិនិច្ឆ័យស្វ័យប្រវត្តិ។" : "Select at least 1 symptom from Step 2 to generate real-time diagnostic predictions.";
+            if (sideConfidenceBadge) sideConfidenceBadge.style.display = "none";
+            if (sideBarBg) sideBarBg.style.display = "none";
             if (mobilePrediction) mobilePrediction.textContent = isKm ? "មិនទាន់មានលទ្ធផល" : "No prediction yet";
             return;
         }
 
-        sideLiveDisease.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> ${isKm ? "កំពុងផ្ទៀងផ្ទាត់វិធាន..." : "Evaluating knowledge base..."}`;
+        if (sideLiveDisease) sideLiveDisease.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> ${isKm ? "កំពុងផ្ទៀងផ្ទាត់វិធាន..." : "Evaluating knowledge base..."}`;
 
         liveEvalTimer = setTimeout(() => {
             const sympIds = Array.from(selected.values()).map(s => s.id).filter(Boolean);
@@ -2629,12 +2714,14 @@ html.dark-mode .diag-mobile-prediction,
                 if (data && data.ok && data.best && data.best.disease_name) {
                     const disease = data.best.disease_name;
                     const conf = Math.round(data.best.confidence_percent || 0);
-                    sideLiveDisease.textContent = disease;
-                    sideConfidenceBadge.textContent = conf + "% Match";
-                    sideConfidenceBadge.style.display = "inline-block";
-                    sideBarBg.style.display = "block";
-                    sideBarFill.style.width = conf + "%";
-                    sideLiveDesc.textContent = isKm ?
+                    if (sideLiveDisease) sideLiveDisease.textContent = disease;
+                    if (sideConfidenceBadge) {
+                        sideConfidenceBadge.textContent = conf + "% Match";
+                        sideConfidenceBadge.style.display = "inline-block";
+                    }
+                    if (sideBarBg) sideBarBg.style.display = "block";
+                    if (sideBarFill) sideBarFill.style.width = conf + "%";
+                    if (sideLiveDesc) sideLiveDesc.textContent = isKm ?
                         `បានរកឃើញភាពត្រូវគ្នានឹងច្បាប់វិនិច្ឆ័យនៃ "${disease}" នៅក្នុងប្រព័ន្ធចំណេះដឹង។` :
                         `Matches diagnostic rule criteria for "${disease}" in Cambodia Plant Health KB.`;
                     if (mobilePrediction) mobilePrediction.textContent = `${disease} • ${conf}%`;
@@ -2642,27 +2729,29 @@ html.dark-mode .diag-mobile-prediction,
                     const top = data.suspects[0];
                     const disease = top.disease_name;
                     const conf = Math.round((top.confidence || 0) * 100);
-                    sideLiveDisease.textContent = disease;
-                    sideConfidenceBadge.textContent = conf + "% Match";
-                    sideConfidenceBadge.style.display = "inline-block";
-                    sideBarBg.style.display = "block";
-                    sideBarFill.style.width = conf + "%";
-                    sideLiveDesc.textContent = isKm ?
+                    if (sideLiveDisease) sideLiveDisease.textContent = disease;
+                    if (sideConfidenceBadge) {
+                        sideConfidenceBadge.textContent = conf + "% Match";
+                        sideConfidenceBadge.style.display = "inline-block";
+                    }
+                    if (sideBarBg) sideBarBg.style.display = "block";
+                    if (sideBarFill) sideBarFill.style.width = conf + "%";
+                    if (sideLiveDesc) sideLiveDesc.textContent = isKm ?
                         `រោគសញ្ញាស្របគ្នានឹងលក្ខខណ្ឌជំងឺ "${disease}"។` :
                         `Symptoms align with conditions associated with "${disease}".`;
                     if (mobilePrediction) mobilePrediction.textContent = `${disease} • ${conf}%`;
                 } else {
-                    sideLiveDisease.textContent = isKm ? "បានកត់ត្រារោគសញ្ញា" : "Symptoms Recorded";
-                    sideConfidenceBadge.style.display = "none";
-                    sideBarBg.style.display = "none";
-                    sideLiveDesc.textContent = isKm ?
+                    if (sideLiveDisease) sideLiveDisease.textContent = isKm ? "បានកត់ត្រារោគសញ្ញា" : "Symptoms Recorded";
+                    if (sideConfidenceBadge) sideConfidenceBadge.style.display = "none";
+                    if (sideBarBg) sideBarBg.style.display = "none";
+                    if (sideLiveDesc) sideLiveDesc.textContent = isKm ?
                         "រោគសញ្ញានឹងត្រូវបានវិភាគលម្អិតបន្ថែមដោយម៉ាស៊ីនវិនិច្ឆ័យនៅពេលបញ្ជូន។" :
                         "Our expert rule engine and specialists will compute a complete assessment upon submission.";
                     if (mobilePrediction) mobilePrediction.textContent = `${selected.size} ${isKm ? "រោគសញ្ញា" : "symptoms"}`;
                 }
             })
             .catch(() => {
-                sideLiveDisease.textContent = isKm ? "បានកត់ត្រារោគសញ្ញា" : "Symptoms Recorded";
+                if (sideLiveDisease) sideLiveDisease.textContent = isKm ? "បានកត់ត្រារោគសញ្ញា" : "Symptoms Recorded";
             });
         }, 320);
     }
@@ -2687,7 +2776,7 @@ html.dark-mode .diag-mobile-prediction,
             const text = (isKm && s.name_kh) ? s.name_kh : s.name;
             const chip = document.createElement("button");
             chip.type = "button";
-            chip.className = "diag-chip fm-chip";
+            chip.className = "diag-chip";
             chip.dataset.symptomName = s.name;
             chip.dataset.symptomId = s.id;
             chip.dataset.search = (text || "").toLowerCase() + " " + (s.name || "").toLowerCase();
@@ -2742,10 +2831,14 @@ html.dark-mode .diag-mobile-prediction,
         activeCropName.textContent = cropName;
         cropPickerCollapsible.style.display = "none";
 
-        // Update Sidebar
-        sideCropEmoji.textContent = cropEmoji;
-        sideCropName.textContent = cropName;
-        sideCropHint.textContent = isKm ? "រួចរាល់សម្រាប់ការវិភាគ" : "Ready for diagnosis";
+        // Update Sidebar if present
+        if (sideCropEmoji) sideCropEmoji.textContent = cropEmoji;
+        if (sideCropName) sideCropName.textContent = cropName;
+        if (sideCropHint) sideCropHint.textContent = isKm ? "រួចរាល់សម្រាប់ការវិភាគ" : "Ready for diagnosis";
+
+        // Update Floating Dock Crop Summary
+        if (dockCropEmoji) dockCropEmoji.textContent = cropEmoji;
+        if (dockCropName) dockCropName.textContent = cropName;
 
         // Show Symptoms Container
         selected.clear();
@@ -2844,6 +2937,11 @@ html.dark-mode .diag-mobile-prediction,
                 if (cat === "all" || group.dataset.group === cat) {
                     const box = group.querySelector(".diag-category-body");
                     group.hidden = !box || box.children.length === 0;
+                    if (cat !== "all" && box) {
+                        box.hidden = false;
+                        const head = group.querySelector(".diag-category-header");
+                        if (head) head.setAttribute("aria-expanded", "true");
+                    }
                 } else {
                     group.hidden = true;
                 }
@@ -2851,13 +2949,41 @@ html.dark-mode .diag-mobile-prediction,
         });
     });
 
+    // Expand / Collapse All Categories Toggle
+    let allCatsExpanded = true;
+    const btnToggleAllCats = document.getElementById("btn-toggle-all-cats");
+    const iconToggleAll    = document.getElementById("icon-toggle-all");
+    const textToggleAll    = document.getElementById("text-toggle-all");
+
+    if (btnToggleAllCats) {
+        btnToggleAllCats.addEventListener("click", () => {
+            allCatsExpanded = !allCatsExpanded;
+            document.querySelectorAll(".diag-category-group").forEach(group => {
+                const head = group.querySelector(".diag-category-header");
+                const box  = group.querySelector(".diag-category-body");
+                if (head && box) {
+                    head.setAttribute("aria-expanded", allCatsExpanded ? "true" : "false");
+                    box.hidden = !allCatsExpanded;
+                }
+            });
+            if (iconToggleAll) {
+                iconToggleAll.className = allCatsExpanded ? "fas fa-compress-alt" : "fas fa-expand-alt";
+            }
+            if (textToggleAll) {
+                textToggleAll.textContent = allCatsExpanded
+                    ? (isKm ? "បង្រួមទាំងអស់" : "Collapse All")
+                    : (isKm ? "ពន្លាតទាំងអស់" : "Expand All");
+            }
+        });
+    }
+
     // Collapsible category accordions
     document.querySelectorAll(".diag-category-header").forEach(head => {
         head.addEventListener("click", () => {
             const box = document.getElementById(head.dataset.target);
             const open = head.getAttribute("aria-expanded") === "true";
             head.setAttribute("aria-expanded", open ? "false" : "true");
-            box.hidden = open;
+            if (box) box.hidden = open;
         });
     });
 
@@ -2876,10 +3002,12 @@ html.dark-mode .diag-mobile-prediction,
         if (btn) removeSymptom(btn.dataset.symp);
     });
 
-    sideSympList.addEventListener("click", e => {
-        const icon = e.target.closest("i");
-        if (icon && icon.dataset.symp) removeSymptom(icon.dataset.symp);
-    });
+    if (sideSympList) {
+        sideSympList.addEventListener("click", e => {
+            const icon = e.target.closest("i");
+            if (icon && icon.dataset.symp) removeSymptom(icon.dataset.symp);
+        });
+    }
 
     // Clear all symptoms
     btnClearAll.addEventListener("click", () => {
@@ -3001,22 +3129,33 @@ html.dark-mode .diag-mobile-prediction,
         }
     });
 
-    // Form submission
+    // Smooth jump navigation to Step 3
+    const jumpToStep3 = () => {
+        const mediaCard = document.getElementById("step-media-card");
+        if (mediaCard) {
+            mediaCard.scrollIntoView({ behavior: "smooth", block: "start" });
+            const notesEl = document.getElementById("additional-notes");
+            if (notesEl) setTimeout(() => notesEl.focus(), 350);
+        }
+    };
+    const dockBtnJumpStep3 = document.getElementById("dock-btn-jump-step3");
+    if (dockBtnJumpStep3) dockBtnJumpStep3.addEventListener("click", jumpToStep3);
+
+    // Form submission across all milestone buttons
     function submitDiagnosis() {
         if (!selectedCropId) return;
         syncState();
-        const submitText = isKm ? '<i class="fas fa-spinner fa-spin mr-2"></i> កំពុងវិភាគរោគវិនិច្ឆ័យ...' : '<i class="fas fa-spinner fa-spin mr-2"></i> Analyzing diagnosis...';
-        btnSubmit.disabled = true;
-        btnSubmit.innerHTML = submitText;
-        if (mobileBtnSubmit) {
-            mobileBtnSubmit.disabled = true;
-            mobileBtnSubmit.innerHTML = submitText;
-        }
+        const submitText = isKm ? '<i class="fas fa-spinner fa-spin mr-2"></i> កំពុងវិភាគ...' : '<i class="fas fa-spinner fa-spin mr-2"></i> Analyzing...';
+        getAllSubmitButtons().forEach(btn => {
+            btn.disabled = true;
+            btn.innerHTML = submitText;
+        });
         form.submit();
     }
 
-    btnSubmit.addEventListener("click", submitDiagnosis);
-    if (mobileBtnSubmit) mobileBtnSubmit.addEventListener("click", submitDiagnosis);
+    getAllSubmitButtons().forEach(btn => {
+        btn.addEventListener("click", submitDiagnosis);
+    });
 
     // Initial setup if crop is preselected
     if (selectedCropId) {
