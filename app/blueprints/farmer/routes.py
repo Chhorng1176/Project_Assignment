@@ -76,7 +76,7 @@ PROJECT_TEAM = [
     {
         "name": "Mao Seavik",
         "name_kh": "ម៉ៅ&nbsp;សៀវអ៊ិ",
-        "rank": "Team Leader & Backend Lead",
+        "rank": "Manager & Backend Lead",
         "rank_kh": "ប្រធានក្រុម / Backend Lead",
         "photo": "Mao Seavik.jpg",
         "task": "System Architecture, Flask Backend APIs, Rule-Based Diagnosis Engine & Weather Intelligence",
